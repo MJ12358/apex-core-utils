@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+	<labels>
+		<fullName>DmlLimitReached</fullName>
+		<categories>core</categories>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>DmlLimitReached</shortDescription>
+		<value>DML limit reached.</value>
+	</labels>
+	<labels>
+		<fullName>SoqlLimitReached</fullName>
+		<categories>core</categories>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>SoqlLimitReached</shortDescription>
+		<value>SOQL Query limit reached.</value>
+	</labels>
+	<labels>
+		<fullName>CronLimitReached</fullName>
+		<categories>core</categories>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>CronLimitReached</shortDescription>
+		<value>Scheduled job (cron job) limit reached [100].</value>
+	</labels>
+	<labels>
+		<fullName>CronSecondInvalid</fullName>
+		<categories>cron</categories>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>CronSecondInvalid</shortDescription>
+		<value>The "second" value is not within range [0 - 59].</value>
+	</labels>
+	<labels>
+		<fullName>CronMinuteInvalid</fullName>
+		<categories>cron</categories>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>CronMinuteInvalid</shortDescription>
+		<value>The "minute" value is not within range [0 - 59].</value>
+	</labels>
+	<labels>
+		<fullName>CronHourInvalid</fullName>
+		<categories>cron</categories>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>CronHourInvalid</shortDescription>
+		<value>The "hour" value is not within range [0 - 23].</value>
+	</labels>
+	<labels>
+		<fullName>CronDayOfMonthInvalid</fullName>
+		<categories>cron</categories>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>CronDayOfMonthInvalid</shortDescription>
+		<value>The "day of month" value is not within range [1 - 31].</value>
+	</labels>
+	<labels>
+		<fullName>CronDayOfMonthStartStopInvalid</fullName>
+		<categories>cron</categories>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>CronDayOfMonthStartStopInvalid</shortDescription>
+		<value>The "start day of month" must not be greater than the "stop day of month".</value>
+	</labels>
+	<labels>
+		<fullName>CronMonthInvalid</fullName>
+		<categories>cron</categories>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>CronMonthInvalid</shortDescription>
+		<value>The "month" value is not within range [1 - 12].</value>
+	</labels>
+	<labels>
+		<fullName>CronMonthStartStopInvalid</fullName>
+		<categories>cron</categories>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>CronMonthStartStopInvalid</shortDescription>
+		<value>The "start month" must not be greater than the "stop month".</value>
+	</labels>
+	<labels>
+		<fullName>CronDayOfWeekInvalid</fullName>
+		<categories>cron</categories>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>CronDayOfWeekInvalid</shortDescription>
+		<value>The "day of week" value is not within range [1 -7].</value>
+	</labels>
+	<labels>
+		<fullName>CronDayOfWeekStartStopInvalid</fullName>
+		<categories>cron</categories>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>CronDayOfWeekStartStopInvalid</shortDescription>
+		<value>The "start day of week" must not be greater than the "stop day of week".</value>
+	</labels>
+	<labels>
+		<fullName>CronYearInvalid</fullName>
+		<categories>cron</categories>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>CronYearInvalid</shortDescription>
+		<value>The "year" value is not within range [1970 - 2099].</value>
+	</labels>
+	<labels>
+		<fullName>CronYearStartStopInvalid</fullName>
+		<categories>cron</categories>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>CronYearStartStopInvalid</shortDescription>
+		<value>The "start year" must not be greater than the "stop year".</value>
+	</labels>
+	<labels>
+		<fullName>CsvColumnsInvalid</fullName>
+		<categories>csv</categories>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>CsvColumnsInvalid</shortDescription>
+		<value>The number of columns provided does not match those already in the csv.</value>
+	</labels>
+</CustomLabels>
