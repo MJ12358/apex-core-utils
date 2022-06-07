@@ -27,52 +27,52 @@
 
 public inherited sharing class IntegerIterator implements Iterator<Integer>, Iterable<Integer> {
 
-	private Integer current;
-	private Integer min;
-	private Integer max;
+  private Integer current;
+  private Integer min;
+  private Integer max;
 
-	public IntegerIterator(Integer maxValue) {
-		this(maxValue, 0);
-	}
+  public IntegerIterator(Integer maxValue) {
+    this(maxValue, 0);
+  }
 
-	public IntegerIterator(Integer maxValue, Integer minValue) {
-		this.current = minValue;
-		this.min = minValue;
-		this.max = maxValue;
-	}
+  public IntegerIterator(Integer maxValue, Integer minValue) {
+    this.current = minValue;
+    this.min = minValue;
+    this.max = maxValue;
+  }
 
-	public Boolean hasNext() {
-		return this.current < this.max;
-	}
+  public Boolean hasNext() {
+    return this.current < this.max;
+  }
 
-	public Integer next() {
-		if (hasNext()) {
-			return this.current++;
-		}
-		throw new System.NoSuchElementException();
-	}
+  public Integer next() {
+    if (hasNext()) {
+      return this.current++;
+    }
+    throw new System.NoSuchElementException();
+  }
 
-	public Boolean hasPrevious() {
-		return this.current > this.min;
-	}
+  public Boolean hasPrevious() {
+    return this.current > this.min;
+  }
 
-	public Integer previous() {
-		if (hasPrevious()) {
-			return this.current--;
-		}
-		throw new System.NoSuchElementException();
-	}
+  public Integer previous() {
+    if (hasPrevious()) {
+      return this.current--;
+    }
+    throw new System.NoSuchElementException();
+  }
 
-	public Integer first() {
-		return this.min;
-	}
+  public Integer first() {
+    return this.min;
+  }
 
-	public Integer last() {
-		return this.max;
-	}
+  public Integer last() {
+    return this.max;
+  }
 
-	public Iterator<Integer> iterator() {
-		return this;
-	}
+  public Iterator<Integer> iterator() {
+    return this;
+  }
 
 }

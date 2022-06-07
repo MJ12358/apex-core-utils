@@ -32,89 +32,89 @@ public class UserUtil {
  *  @param Id
  *  @return Id
  */
-	public static Id getPortalAccountId(Id userId) {
-		User result = [
-			SELECT Id, Contact.AccountId 
-			FROM User 
-			WHERE Id = :userId
-		];
-		return result.Contact?.AccountId;
-	}
+  public static Id getPortalAccountId(Id userId) {
+    User result = [
+      SELECT Id, Contact.AccountId 
+      FROM User 
+      WHERE Id = :userId
+    ];
+    return result.Contact?.AccountId;
+  }
 
 /**
- *	Check if the user is an administrator
- *	@param Id
- *	@return Boolean
+ *  Check if the user is an administrator
+ *  @param Id
+ *  @return Boolean
  */
-	public static Boolean isAdmin(Id userId) {
-		User result;
-		try {
-			result = [
-				SELECT Id 
-				FROM User 
-				WHERE Id = :userId 
-					AND Profile.Name = 'System Administrator'
-			];
-		} catch (Exception e) {
-			// fail silently
-		}
-		return result != null;
-	}
+  public static Boolean isAdmin(Id userId) {
+    User result;
+    try {
+      result = [
+        SELECT Id 
+        FROM User 
+        WHERE Id = :userId 
+          AND Profile.Name = 'System Administrator'
+      ];
+    } catch (Exception e) {
+      // fail silently
+    }
+    return result != null;
+  }
 
 /**
  *  Check if the user is an administrator
  *  @return Boolean
  */
-	@AuraEnabled
-	public static Boolean isAdmin() {
-		return isAdmin(System.UserInfo.getUserId());
-	}
+  @AuraEnabled
+  public static Boolean isAdmin() {
+    return isAdmin(System.UserInfo.getUserId());
+  }
 
 /**
- *	Check if the user is a guest
- *	@param Id
- *	@return Boolean
+ *  Check if the user is a guest
+ *  @param Id
+ *  @return Boolean
  */
-	public static Boolean isGuest(Id userId) {
-		User result;
-		try {
-			result = [
-				SELECT Id 
-				FROM User 
-				WHERE Id = :userId 
-					AND Profile.UserLicense.LicenseDefinitionKey = 'PID_Guest_User'
-			];
-		} catch (Exception e) {
-			// fail silently
-		}
-		return result != null;
-	}
+  public static Boolean isGuest(Id userId) {
+    User result;
+    try {
+      result = [
+        SELECT Id 
+        FROM User 
+        WHERE Id = :userId 
+          AND Profile.UserLicense.LicenseDefinitionKey = 'PID_Guest_User'
+      ];
+    } catch (Exception e) {
+      // fail silently
+    }
+    return result != null;
+  }
 
 /**
  *  Check if the user is a guest
  *  @return Boolean
  */
-	@AuraEnabled
-	public static Boolean isGuest() {
-		return isGuest(System.UserInfo.getUserId());
-	}
+  @AuraEnabled
+  public static Boolean isGuest() {
+    return isGuest(System.UserInfo.getUserId());
+  }
 
 /**
- *	Check if the user is a portal user
- *	@param Id
- *	@return Boolean
+ *  Check if the user is a portal user
+ *  @param Id
+ *  @return Boolean
  */
-	public static Boolean isPortalUser(Id userId) {
-		return getPortalAccountId(userId) != null;
-	}
+  public static Boolean isPortalUser(Id userId) {
+    return getPortalAccountId(userId) != null;
+  }
 
 /**
  *  Check if the user is portal user
  *  @return Boolean
  */
-	@AuraEnabled
-	public static Boolean isPortalUser() {
-		return isPortalUser(System.UserInfo.getUserId());
-	}
+  @AuraEnabled
+  public static Boolean isPortalUser() {
+    return isPortalUser(System.UserInfo.getUserId());
+  }
 
 }

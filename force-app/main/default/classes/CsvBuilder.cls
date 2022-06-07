@@ -27,89 +27,89 @@
 
 public inherited sharing class CsvBuilder {
 
-	public static final String WINDOWS_LINE_ENDING = '\r\n';
-	public static final String UNIX_LINE_ENDING = '\n';
+  public static final String WINDOWS_LINE_ENDING = '\r\n';
+  public static final String UNIX_LINE_ENDING = '\n';
 
-	@TestVisible
-	private Map<String, Map<Integer, String>> headerToValues;
-	private Integer currentRow;
-	private String lineEnding;
+  @TestVisible
+  private Map<String, Map<Integer, String>> headerToValues;
+  private Integer currentRow;
+  private String lineEnding;
 
-	public CsvBuilder(String lineEnding) {
-		this.currentRow = 0;
-		this.headerToValues = new Map<String, Map<Integer, String>>();
-		this.lineEnding = lineEnding;
-	}
+  public CsvBuilder(String lineEnding) {
+    this.currentRow = 0;
+    this.headerToValues = new Map<String, Map<Integer, String>>();
+    this.lineEnding = lineEnding;
+  }
 
-	public CsvBuilder() {
-		this(WINDOWS_LINE_ENDING);
-	}
+  public CsvBuilder() {
+    this(WINDOWS_LINE_ENDING);
+  }
 
-	public CsvBuilder appendField(String headerName, Object fieldValue) {
-		Map<Integer, String> column = headerToValues.containsKey(headerName) ? headerToValues.get(headerName) : new Map<Integer, String>();
-		column.put(currentRow, String.valueOf(fieldValue));
-		headerToValues.put(headerName, column);
-		return this;
-	}
+  public CsvBuilder appendField(String headerName, Object fieldValue) {
+    Map<Integer, String> column = headerToValues.containsKey(headerName) ? headerToValues.get(headerName) : new Map<Integer, String>();
+    column.put(currentRow, String.valueOf(fieldValue));
+    headerToValues.put(headerName, column);
+    return this;
+  }
 
-	public CsvBuilder newRow() {
-		currentRow++;
-		return this;
-	}
+  public CsvBuilder newRow() {
+    currentRow++;
+    return this;
+  }
 
-	public override String toString() {
-		ColumnBuilder csvDocument = new ColumnBuilder(lineEnding);
-		RowBuilder headerRow = new RowBuilder();
-		RowBuilder[] rows = new RowBuilder[currentRow];
-		for (String headerName : headerToValues.keySet()) {
-			headerRow.append(headerName);
-			Map<Integer, String> values = headerToValues.get(headerName);
-			for (Integer rowIterator = 0; rowIterator < currentRow; rowIterator++) {
-				String value = values.containsKey(rowIterator) ? values.get(rowIterator) : '';
-				RowBuilder row = rows[rowIterator];
-				if (row == null) {
-					row = new RowBuilder();
-				}
+  public override String toString() {
+    ColumnBuilder csvDocument = new ColumnBuilder(lineEnding);
+    RowBuilder headerRow = new RowBuilder();
+    RowBuilder[] rows = new RowBuilder[currentRow];
+    for (String headerName : headerToValues.keySet()) {
+      headerRow.add(headerName);
+      Map<Integer, String> values = headerToValues.get(headerName);
+      for (Integer rowIterator = 0; rowIterator < currentRow; rowIterator++) {
+        String value = values.containsKey(rowIterator) ? values.get(rowIterator) : '';
+        RowBuilder row = rows[rowIterator];
+        if (row == null) {
+          row = new RowBuilder();
+        }
         value = value?.escapeCsv()
           .replaceAll('\r\n', ' ')
           .replaceAll('\n', ' ');
-				row.append(value);
-				rows[rowIterator] = row;
-			}
-		}
-		csvDocument.append(headerRow);
-		for (RowBuilder row : rows) {
-			csvDocument.append(row);
-		}
-		return csvDocument.toString();
-	}
+        row.add(value);
+        rows[rowIterator] = row;
+      }
+    }
+    csvDocument.add(headerRow);
+    for (RowBuilder row : rows) {
+      csvDocument.add(row);
+    }
+    return csvDocument.toString();
+  }
 
-	private class RowBuilder extends StringBuilder {
+  private class RowBuilder extends StringBuilder {
 
-		public RowBuilder() {
-			separator(',');
-		}
+    public RowBuilder() {
+      separator(',');
+    }
 
-	}
+  }
 
-	private class ColumnBuilder extends StringBuilder {
+  private class ColumnBuilder extends StringBuilder {
 
-		private Integer numberOfColumns;
+    private Integer numberOfColumns;
 
-		public ColumnBuilder(String lineEnding) {
-			separator(lineEnding);
-		}
+    public ColumnBuilder(String lineEnding) {
+      separator(lineEnding);
+    }
 
-		public ColumnBuilder append(RowBuilder rowToAdd) {
-			Boolean isAddedRowValid = numberOfColumns == null || rowToAdd.length() == numberOfColumns;
-			if (!isAddedRowValid) {
-				throw new CsvBuilderException(System.Label.CsvColumnsInvalid);
-			}
-			numberOfColumns = rowToAdd.length();
-			append(rowToAdd.toString());
-			return this;
-		}
+    public ColumnBuilder add(RowBuilder rowToAdd) {
+      Boolean isAddedRowValid = numberOfColumns == null || rowToAdd.length() == numberOfColumns;
+      if (!isAddedRowValid) {
+        throw new CsvBuilderException(System.Label.CsvColumnsInvalid);
+      }
+      numberOfColumns = rowToAdd.length();
+      add(rowToAdd.toString());
+      return this;
+    }
 
-	}
+  }
 
 }

@@ -52,129 +52,129 @@
 
 public virtual class StringBuilder {
 
-	protected List<String> buffer = new List<String>();
-	private String prefix = '';
-	private String postfix = '';
-	private String separator = '';
-	
-	public StringBuilder() {}
-	
-	public StringBuilder(List<String> values) {
-		this.buffer = values;
-	}
+  protected List<String> buffer = new List<String>();
+  private String prefix = '';
+  private String postfix = '';
+  private String separator = '';
+  
+  public StringBuilder() {}
+  
+  public StringBuilder(List<String> values) {
+    this.buffer = values;
+  }
 
-	//* Append
+  //* Append
 
-	public virtual StringBuilder add(String value) {
-		this.buffer.add(value);
-		return this;
-	}
-	
-	public virtual StringBuilder add(List<String> values) {
-		this.buffer.addAll(values);
-		return this;
-	}
+  public virtual StringBuilder add(String value) {
+    this.buffer.add(value);
+    return this;
+  }
+  
+  public virtual StringBuilder add(List<String> values) {
+    this.buffer.addAll(values);
+    return this;
+  }
 
-	//* Prefix
+  //* Prefix
 
-	public virtual String prefix() {
-		return this.prefix;
-	}
+  public virtual String prefix() {
+    return this.prefix;
+  }
 
-	public virtual StringBuilder prefix(String value) {
-		if (value != null) {
-			this.prefix = value;
-		}
-		return this;
-	}
+  public virtual StringBuilder prefix(String value) {
+    if (value != null) {
+      this.prefix = value;
+    }
+    return this;
+  }
 
-	//* Separator
+  //* Separator
 
-	public virtual String separator() {
-		return this.separator;
-	}
+  public virtual String separator() {
+    return this.separator;
+  }
 
-	public virtual StringBuilder separator(String value) {
-		if (value != null) {
-			this.separator = value;
-		}
-		return this;
-	}
+  public virtual StringBuilder separator(String value) {
+    if (value != null) {
+      this.separator = value;
+    }
+    return this;
+  }
 
-	//* Returns
+  //* Returns
 
-	public Integer length() {
-		return this.buffer.size();
-	}
+  public Integer length() {
+    return this.buffer.size();
+  }
 
-	public String toString(String prefix) {
-		prefix(prefix);
-		return toString();
-	}
+  public String toString(String prefix) {
+    prefix(prefix);
+    return toString();
+  }
 
-	public override String toString() {
-		return prefix() + String.join(this.buffer, separator() + prefix());
-	}
+  public override String toString() {
+    return prefix() + String.join(this.buffer, separator() + prefix());
+  }
 
-	//* Subclasses
+  //* Subclasses
 
-	public virtual class CommaDelimitedListBuilder extends StringBuilder {
+  public virtual class CommaDelimitedListBuilder extends StringBuilder {
 
-		public CommaDelimitedListBuilder() {
-			separator(',');
-		}
+    public CommaDelimitedListBuilder() {
+      separator(',');
+    }
 
-		public CommaDelimitedListBuilder(List<String> values) {
-			super(values);
-			separator(',');
-		}
+    public CommaDelimitedListBuilder(List<String> values) {
+      super(values);
+      separator(',');
+    }
 
-	}
+  }
 
-	public virtual class FieldListBuilder extends CommaDelimitedListBuilder {
+  public virtual class FieldListBuilder extends CommaDelimitedListBuilder {
 
-		private Boolean enforceFLS;
+    private Boolean enforceFLS;
 
-		public FieldListBuilder(Schema.SObjectType sObjectType) {
-			this(sObjectType, true);
-		}
+    public FieldListBuilder(Schema.SObjectType sObjectType) {
+      this(sObjectType, true);
+    }
 
-		public FieldListBuilder(Schema.SObjectType sObjectType, Boolean enforceFLS) {
-			this(sObjectType.getDescribe().fields.getMap().values(), enforceFLS);
-		}
+    public FieldListBuilder(Schema.SObjectType sObjectType, Boolean enforceFLS) {
+      this(sObjectType.getDescribe().fields.getMap().values(), enforceFLS);
+    }
 
-		public FieldListBuilder(Schema.FieldSet fieldSet) {
-			this(fieldSet, true);
-		}
+    public FieldListBuilder(Schema.FieldSet fieldSet) {
+      this(fieldSet, true);
+    }
 
-		public FieldListBuilder(Schema.FieldSet fieldSet, Boolean enforceFLS) {
-			this.enforceFLS = enforceFLS;
-			for (Schema.FieldSetMember fieldMember : fieldSet.getFields()) {
-				Schema.DescribeFieldResult dfr = fieldMember.getSObjectField().getDescribe();
-				addField(dfr);
-			}
-		}
+    public FieldListBuilder(Schema.FieldSet fieldSet, Boolean enforceFLS) {
+      this.enforceFLS = enforceFLS;
+      for (Schema.FieldSetMember fieldMember : fieldSet.getFields()) {
+        Schema.DescribeFieldResult dfr = fieldMember.getSObjectField().getDescribe();
+        addField(dfr);
+      }
+    }
 
-		public FieldListBuilder(List<Schema.SObjectField> fields) {
-			this(fields, true);
-		}
+    public FieldListBuilder(List<Schema.SObjectField> fields) {
+      this(fields, true);
+    }
 
-		public FieldListBuilder(List<Schema.SObjectField> fields, Boolean enforceFLS) {
-			this.enforceFLS = enforceFLS;
-			for (Schema.SObjectField field : fields) {
-				Schema.DescribeFieldResult dfr = field.getDescribe();
-				addField(dfr);
-			}
-		}
+    public FieldListBuilder(List<Schema.SObjectField> fields, Boolean enforceFLS) {
+      this.enforceFLS = enforceFLS;
+      for (Schema.SObjectField field : fields) {
+        Schema.DescribeFieldResult dfr = field.getDescribe();
+        addField(dfr);
+      }
+    }
 
-		private void addField(Schema.DescribeFieldResult dfr) {
-			if (this.enforceFLS && dfr.isAccessible()) {
-				this.buffer.add(dfr.getName());
-			} else if (!this.enforceFLS) {
-				this.buffer.add(dfr.getName());
-			}
-		}
+    private void addField(Schema.DescribeFieldResult dfr) {
+      if (this.enforceFLS && dfr.isAccessible()) {
+        this.buffer.add(dfr.getName());
+      } else if (!this.enforceFLS) {
+        this.buffer.add(dfr.getName());
+      }
+    }
 
-	}
-	
+  }
+  
 }

@@ -30,58 +30,59 @@
 
 public class XmlReader {
 
-	public System.XmlStreamReader reader;
-	public String xmlns;
-	public String result;
+  private System.XmlStreamReader reader;
+  private String xmlns;
+  private String result;
 
-	public XmlReader(String xml) {
-		this.reader = new System.XmlStreamReader(xml); 
-		this.result = '';
-	}
+  public XmlReader(String xml) {
+    this.reader = new System.XmlStreamReader(xml); 
+    this.result = '';
+  }
 
-	public XmlReader(Dom.Document document) {
-		this(document.toXmlString());
-	}
+  public XmlReader(Dom.Document document) {
+    this(document.toXmlString());
+  }
 
-	public XmlReader setNamespace(String value) {
-		this.xmlns = value;
-		return this;
-	}
+  public XmlReader setNamespace(String value) {
+    this.xmlns = value;
+    return this;
+  }
 
-	public XmlReader getAttribute(String element, String attribute) {
-		while (this.reader.hasNext()) {
-			if (this.reader.getEventType() == System.XmlTag.START_ELEMENT 
+  public XmlReader getAttribute(String element, String attribute) {
+    while (this.reader.hasNext()) {
+      if (this.reader.getEventType() == System.XmlTag.START_ELEMENT 
           && this.reader.getLocalName().equalsIgnoreCase(element)) {
-				this.result = this.reader.getAttributeValue(xmlns, attribute);
-				break;
-			}
-			this.reader.next();
-		}
-		return this;
-	}
+        this.result = this.reader.getAttributeValue(xmlns, attribute);
+        break;
+      }
+      this.reader.next();
+    }
+    return this;
+  }
 
-	public XmlReader getElement(String element) {
-		while (this.reader.hasNext()) {
-			if (this.reader.getEventType() == System.XmlTag.START_ELEMENT 
+  public XmlReader getElement(String element) {
+    while (this.reader.hasNext()) {
+      if (this.reader.getEventType() == System.XmlTag.START_ELEMENT 
           && this.reader.getLocalName().equalsIgnoreCase(element)) {
-				while (this.reader.hasNext()) {
-					this.reader.next();
-					if (this.reader.getEventType() == System.XmlTag.CHARACTERS) {
-						this.result += this.reader.getText();
-					}
-				}
-			}
-			this.reader.next();
-		}
-		return this;
-	}
+        while (this.reader.hasNext()) {
+          this.reader.next();
+          if (this.reader.getEventType() == System.XmlTag.CHARACTERS) {
+            this.result = this.reader.getText();
+            break;
+          }
+        }
+      }
+      this.reader.next();
+    }
+    return this;
+  }
 
-	public System.XmlStreamReader getReader() {
-		return this.reader;
-	}
+  public System.XmlStreamReader getReader() {
+    return this.reader;
+  }
 
-	public String getResult() {
-		return this.result.normalizeSpace();
-	}
+  public String getResult() {
+    return this.result.normalizeSpace();
+  }
 
 }

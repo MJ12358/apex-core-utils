@@ -28,24 +28,24 @@
 public inherited sharing class BooleanUtil {
 
 /**
- * 	Negates the incoming boolean
- * 	@param Boolean
- *	@return Boolean
+ *  Negates the incoming boolean
+ *  @param Boolean
+ *  @return Boolean
  */
-	public static Boolean negate(Boolean value) {
-		if (value == null) {
-			return false;
-		}
-		return !value;
-	}
+  public static Boolean negate(Boolean value) {
+    if (value == null) {
+      return false;
+    }
+    return !value;
+  }
 
 /**
- * 	Converts an object to a boolean
- * 	@param Object
- * 	@return Boolean
+ *  Converts an object to a boolean
+ *  @param Object
+ *  @return Boolean
  */
   public static Boolean toBoolean(Object value) {
-		if (value == null) {
+    if (value == null) {
       return false;
     }
 
@@ -70,42 +70,42 @@ public inherited sharing class BooleanUtil {
     }
 
     return false;
-	}
+  }
 
 /**
- * 	Converts a boolean to a string
- * 	@param Boolean
- * 	@return String either 'TRUE' or 'FALSE'
+ *  Converts a boolean to a string
+ *  @param Boolean
+ *  @return String either 'TRUE' or 'FALSE'
  */
-	public static String toString(Boolean value) {
-		if (value != null && value) {
-			return 'TRUE';
-		}
-		return 'FALSE';
-	}
+  public static String toString(Boolean value) {
+    if (value != null && value) {
+      return 'TRUE';
+    }
+    return 'FALSE';
+  }
 
 /**
- *	Converts a boolean to a string
- *	@param Boolean
- *	@return String either 'YES' or 'NO'
+ *  Converts a boolean to a string
+ *  @param Boolean
+ *  @return String either 'YES' or 'NO'
  */
-	public static String toYesNo(Boolean value) {
-		if (value != null && value) {
-			return 'YES';
-		}
-		return 'NO';
-	}
+  public static String toYesNo(Boolean value) {
+    if (value != null && value) {
+      return 'YES';
+    }
+    return 'NO';
+  }
 
 /**
- *	Converts a boolean to a string
- *	@param Boolean
- *	@return String either 'Y' or 'N'
+ *  Converts a boolean to a string
+ *  @param Boolean
+ *  @return String either 'Y' or 'N'
  */
-	public static String toYN(Boolean value) {
-		if (value != null && value) {
-			return 'Y';
-		}
-		return 'N';
-	}
+  public static String toYN(Boolean value) {
+    if (value != null && value) {
+      return 'Y';
+    }
+    return 'N';
+  }
 
 }

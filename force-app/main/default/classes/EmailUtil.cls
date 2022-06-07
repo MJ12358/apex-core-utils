@@ -35,11 +35,11 @@ public inherited sharing class EmailUtil {
  */
   public static void send(String subject, String message, List<String> toAddresses) {
     Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-		mail.setToAddresses(toAddresses);
-		mail.setSubject(subject);
-		mail.setPlainTextBody(message);
-		mail.setSaveAsActivity(false);
-		Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
+    mail.setToAddresses(toAddresses);
+    mail.setSubject(subject);
+    mail.setPlainTextBody(message);
+    mail.setSaveAsActivity(false);
+    Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
   }
 
 /**
@@ -53,122 +53,123 @@ public inherited sharing class EmailUtil {
     send(subject, message, toAddresses);
   }
 
-	//* Send debug
+  //* Send debug
 
 /**
- *	Send a debug message
+ *  Send a debug message
  *    to all who subscribe to apex notifications
- *	@param String subject
- *	@param String message
- *	@param Exception
+ *  @param String subject
+ *  @param String message
+ *  @param Exception
  */
-	public static void sendDebug(String subject, String message, Exception e) {
+  public static void sendDebug(String subject, String message, Exception e) {
     List<String> toAddresses = getApexNotification();
     if (toAddresses.isEmpty()) {
       return; // TODO: what to do in this case
     }
-		String errorMessage = String.format('Cause :: {0}\nType :: {1}\nLine Number :: {2}\nMessage :: {3}\nStackTrace :: {4}',
-			new List<Object>{
-				e.getCause(),
-				e.getTypeName(),
-				e.getLineNumber(),
-				e.getMessage(),
-				e.getStackTraceString()
-			}
-		);
-		Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-		mail.setToAddresses(toAddresses);
-		mail.setSubject(subject);
-		mail.setPlainTextBody(errorMessage + '\n' + message);
-		mail.setSaveAsActivity(false);
-		Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
-	}
+    String errorMessage = String.format('Cause :: {0}\nType :: {1}\nLine Number :: {2}\nMessage :: {3}\nStackTrace :: {4}',
+      new List<Object>{
+        e.getCause(),
+        e.getTypeName(),
+        e.getLineNumber(),
+        e.getMessage(),
+        e.getStackTraceString()
+      }
+    );
+    Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+    mail.setToAddresses(toAddresses);
+    mail.setSubject(subject);
+    mail.setPlainTextBody(errorMessage + '\n' + message);
+    mail.setSaveAsActivity(false);
+    Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
+  }
 
-	public static void sendDebug(String message, Exception e) {
-		sendDebug('An apex error occurred', message, e);
-	}
+  public static void sendDebug(String message, Exception e) {
+    sendDebug('An apex error occurred', message, e);
+  }
 
-	public static void sendDebug(String message) {
-		sendDebug(message, new DmlException());
-	}
+  public static void sendDebug(String message) {
+    sendDebug(message, new DmlException());
+  }
 
-	//* Send info
+  //* Send info
 
 /**
- *	Send an informational message
+ *  Send an informational message
  *    to all who subscribe to apex notifications
- *	@param String subject
- *	@param String message
+ *  @param String subject
+ *  @param String message
  */
-	public static void sendInfo(String subject, String message) {
+  public static void sendInfo(String subject, String message) {
     List<String> toAddresses = getApexNotification();
     if (toAddresses.isEmpty()) {
       return; // TODO: what to do in this case
     }
-		Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-		mail.setToAddresses(toAddresses);
-		mail.setSubject(subject);
-		mail.setPlainTextBody(message);
-		mail.setSaveAsActivity(false);
-		Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
-	}
+    Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+    mail.setToAddresses(toAddresses);
+    mail.setSubject(subject);
+    mail.setPlainTextBody(message);
+    mail.setSaveAsActivity(false);
+    Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
+  }
 
 /**
  *  Send an informational message
  *    to all who subscribe to apex notifications
  *  @param String message
  */
-	public static void sendInfo(String message) {
-		sendInfo('Apex informational statement', message);
-	}
+  public static void sendInfo(String message) {
+    sendInfo('Apex informational statement', message);
+  }
 
 /**
  *  Get email addresses of users subscribed to apex notifications
  *  @return List<String>
  */
-	public static List<String> getApexNotification() {
-		List<String> emailAddresses = new List<String>();
-		Set<Id> userIds = new Set<Id>();
-		for (ApexEmailNotification aen : [SELECT Email, UserId FROM ApexEmailNotification]) {
-			if (aen.Email == null && aen.UserId != null) {
-				userIds.add(aen.UserId);
-			} else if (aen.Email != null) {
-				emailAddresses.add(aen.Email);
-			}
-		}
-		if (!userIds.isEmpty()) {
-			for (User u : [SELECT Email FROM User WHERE Id IN :userIds]) {
-				if (u.Email != null) {
-					emailAddresses.add(u.Email);
-				}
-			}
-		}
-		return emailAddresses;
-	}
+  public static List<String> getApexNotification() {
+    List<String> emailAddresses = new List<String>();
+    Set<Id> userIds = new Set<Id>();
+    for (ApexEmailNotification aen : [SELECT Email, UserId FROM ApexEmailNotification]) {
+      if (aen.Email == null && aen.UserId != null) {
+        userIds.add(aen.UserId);
+      } else if (aen.Email != null) {
+        emailAddresses.add(aen.Email);
+      }
+    }
+    if (!userIds.isEmpty()) {
+      for (User u : [SELECT Email FROM User WHERE Id IN :userIds]) {
+        if (u.Email != null) {
+          emailAddresses.add(u.Email);
+        }
+      }
+    }
+    return emailAddresses;
+  }
 
 /**
- *	Attempt to strip replies from an email body
- *	@param String The from address
- *	@param String The email body
- *	@return String
+ *  Attempt to get the visible text from an email
+ *    stripping all previous messages
+ *  @param String The from address
+ *  @param String The email body
+ *  @return String
  */
-	public static String stripReplies(String address, String body) {
-		List<System.Pattern> patterns = new List<System.Pattern>{
-			System.Pattern.compile('(?i)From:\\s*'), // common
-			System.Pattern.compile('(?i)<' + address + '>'), // common
-			System.Pattern.compile('(?i)' + address + '\\s+wrote:'),
-			System.Pattern.compile('(?i)On.*(\\r\\n)?wrote:'), // osx mail
-			System.Pattern.compile('(?i)-+original\\s+message-+'), // ms outlook default
-			System.Pattern.compile('________________________________') // outlook
-		};
-		Integer index = body.length();
-		for (System.Pattern p : patterns) {
-			System.Matcher m = p.matcher(body);
-			if (m.find() && m.start() < index) {
-				index = m.start();
-			}
-		}
-		return body.substring(0, index).trim();
-	}
+  public static String getVisibleText(String fromAddress, String body) {
+    List<System.Pattern> patterns = new List<System.Pattern>{
+      System.Pattern.compile('(?i)From:\\s*'), // common
+      System.Pattern.compile('(?i)<' + fromAddress + '>'), // common
+      System.Pattern.compile('(?i)' + fromAddress + '\\s+wrote:'),
+      System.Pattern.compile('(?i)On.*(\\r\\n)?wrote:'), // osx mail
+      System.Pattern.compile('(?i)-+original\\s+message-+'), // ms outlook default
+      System.Pattern.compile('________________________________') // outlook
+    };
+    Integer index = body.length();
+    for (System.Pattern p : patterns) {
+      System.Matcher m = p.matcher(body);
+      if (m.find() && m.start() < index) {
+        index = m.start();
+      }
+    }
+    return body.substring(0, index).trim();
+  }
 
 }

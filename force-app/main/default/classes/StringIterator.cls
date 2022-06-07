@@ -27,41 +27,41 @@
 
 public class StringIterator implements Iterator<String>, Iterable<String> {
 
-	private String delimiter;
-	private String text;
+  private String delimiter;
+  private String text;
 
-	public StringIterator(String text) {
-		this(text, '\n');
-	}
+  public StringIterator(String text) {
+    this(text, '\n');
+  }
 
-	public StringIterator(String text, String delimiter) {
-		this.delimiter = delimiter;
-		this.text = text;
-	}
+  public StringIterator(String text, String delimiter) {
+    this.delimiter = delimiter;
+    this.text = text;
+  }
 
-	public Boolean hasNext() {
-		return this.text.length() > 0;
-	}
+  public Boolean hasNext() {
+    return this.text.length() > 0;
+  }
 
-	public String next() {
-		String row;
-		// get the index of the next delimiter
-		Integer endPos = this.text.indexOf(this.delimiter);
-		if (endPos == -1) {
-			// when not found finish the row
-			row = this.text;
-			this.text = '';
-		} else {
-			// otherwise set the row to the text up to the next delimiter
-			row = this.text.substring(0, endPos);
-			// get the text after the next delimiter
-			this.text = this.text.substring(endPos + this.delimiter.length(), this.text.length());
-		}
-		return row;
-	}
+  public String next() {
+    String row;
+    // get the index of the next delimiter
+    Integer endPos = this.text.indexOf(this.delimiter);
+    if (endPos == -1) {
+      // when not found finish the row
+      row = this.text;
+      this.text = '';
+    } else {
+      // otherwise set the row to the text up to the next delimiter
+      row = this.text.substring(0, endPos);
+      // get the text after the next delimiter
+      this.text = this.text.substring(endPos + this.delimiter.length(), this.text.length());
+    }
+    return row;
+  }
 
-	public Iterator<String> iterator() {
-		return this;
-	}
+  public Iterator<String> iterator() {
+    return this;
+  }
 
 }

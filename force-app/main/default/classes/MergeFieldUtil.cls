@@ -28,133 +28,133 @@
 public inherited sharing class MergeFieldUtil {
 
 /**
- *	Resolve the incoming template
- *	@param SObject
- *	@param String The template
- *	@return String
+ *  Resolve the incoming template
+ *  @param SObject
+ *  @param String The template
+ *  @return String
  */
-	public static String resolve(SObject sObj, String template) {
-		List<String> fields = getFieldsFromTemplate(template);
-		for (String fieldName : fields) {
-			String key = '\\{!' + fieldName + '\\}';
-			try {
-				Object fieldValue = getFieldValue(sObj, fieldName);
-				template = template.replaceAll(key, String.valueOf(fieldValue));
-			} catch (Exception e) {
-				// ignore field not queried errors
-			}
-		}
-		return resolveGlobals(template);
-	}
+  public static String resolve(SObject sObj, String template) {
+    List<String> fields = getFieldsFromTemplate(template);
+    for (String fieldName : fields) {
+      String key = '\\{!' + fieldName + '\\}';
+      try {
+        Object fieldValue = getFieldValue(sObj, fieldName);
+        template = template.replaceAll(key, String.valueOf(fieldValue));
+      } catch (Exception e) {
+        // ignore field not queried errors
+      }
+    }
+    return resolveGlobals(template);
+  }
 
 /**
- *	Resolve the incoming template
- *	@param Id The sObject record id
- *	@param String The template
- *	@return String
+ *  Resolve the incoming template
+ *  @param Id The sObject record id
+ *  @param String The template
+ *  @return String
  */
-	public static String resolve(Id recordId, String template) {
-		List<String> fields = getFieldsFromTemplate(template);
-		String query = String.format('SELECT {0} FROM {1} WHERE Id = :recordId',
-			new List<String>{
-				String.join(fields, ','),
-				recordId.getSObjectType().getDescribe().getName()
-			}
-		);
-		SObject sObj = Database.query(query);
-		return resolve(sObj, template);
-	}
+  public static String resolve(Id recordId, String template) {
+    List<String> fields = getFieldsFromTemplate(template);
+    String query = String.format('SELECT {0} FROM {1} WHERE Id = :recordId',
+      new List<String>{
+        String.join(fields, ','),
+        recordId.getSObjectType().getDescribe().getName()
+      }
+    );
+    SObject sObj = Database.query(query);
+    return resolve(sObj, template);
+  }
 
 /**
- *	Get all fields from a template (excluding globals)
- *	@param String The template
- *	@return List<String>
+ *  Get all fields from a template (excluding globals)
+ *  @param String The template
+ *  @return List<String>
  */
-	public static List<String> getFieldsFromTemplate(String template) {
-		Set<String> results = new Set<String>();
-		String regex = '\\{!([^$]+?)\\}';
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(template);
-		while (m.find()) {
-			results.add(m.group(1));
-		}
-		return new List<String>(results);
-	}
+  public static List<String> getFieldsFromTemplate(String template) {
+    Set<String> results = new Set<String>();
+    String regex = '\\{!([^$]+?)\\}';
+    Pattern p = Pattern.compile(regex);
+    Matcher m = p.matcher(template);
+    while (m.find()) {
+      results.add(m.group(1));
+    }
+    return new List<String>(results);
+  }
 
 /**
- *	Resolve globals from the incoming template
- *	@param String The template
- *	@return String
+ *  Resolve globals from the incoming template
+ *  @param String The template
+ *  @return String
  */
-	public static String resolveGlobals(String template) {
-		Set<String> globals = new Set<String>();
-		String regex = '\\{!\\$(.+?)\\}';
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(template);
-		while (m.find()) {
-			globals.add(m.group(1));
-		}
-		for (String key : globals) {
-			List<String> split = key.split('\\.');
-			if (split.size() != 2) {
-				continue;
-			}
-			key = '\\{!\\$' + key + '\\}';
-			String glob = split[0].toLowerCase(); // global is a reserved word
-			String prop = split[1].toLowerCase();
-			switch on glob {
-				// user globals
-				when 'user' {
-					switch on prop {
-						when 'name' {
-							template = template.replaceAll(key, System.UserInfo.getName());
-						}
-						when 'firstname' {
-							template = template.replaceAll(key, System.UserInfo.getFirstName());
-						}
-						when 'lastname' {
-							template = template.replaceAll(key, System.UserInfo.getLastName());
-						}
-						when 'email' {
-							template = template.replaceAll(key, System.UserInfo.getUserEmail());
-						}
-						when 'companyname' {
-							template = template.replaceAll(key, System.UserInfo.getOrganizationName());
-						}
-					}
-				}
-				// TODO: parse other globals here
-			}
-		}
-		return template;
-	}
+  public static String resolveGlobals(String template) {
+    Set<String> globals = new Set<String>();
+    String regex = '\\{!\\$(.+?)\\}';
+    Pattern p = Pattern.compile(regex);
+    Matcher m = p.matcher(template);
+    while (m.find()) {
+      globals.add(m.group(1));
+    }
+    for (String key : globals) {
+      List<String> split = key.split('\\.');
+      if (split.size() != 2) {
+        continue;
+      }
+      key = '\\{!\\$' + key + '\\}';
+      String glob = split[0].toLowerCase(); // global is a reserved word
+      String prop = split[1].toLowerCase();
+      switch on glob {
+        // user globals
+        when 'user' {
+          switch on prop {
+            when 'name' {
+              template = template.replaceAll(key, System.UserInfo.getName());
+            }
+            when 'firstname' {
+              template = template.replaceAll(key, System.UserInfo.getFirstName());
+            }
+            when 'lastname' {
+              template = template.replaceAll(key, System.UserInfo.getLastName());
+            }
+            when 'email' {
+              template = template.replaceAll(key, System.UserInfo.getUserEmail());
+            }
+            when 'companyname' {
+              template = template.replaceAll(key, System.UserInfo.getOrganizationName());
+            }
+          }
+        }
+        // TODO: parse other globals here
+      }
+    }
+    return template;
+  }
 
 /**
- *	Get an sObject field value from a string (supports dot notation)
- *	@param String
- *	@return Object
- *		this comes from the SObjectUtil
- *		but to reduce dependencies it is duplicated here
+ *  Get an sObject field value from a string (supports dot notation)
+ *  @param String
+ *  @return Object
+ *    this comes from the SObjectUtil
+ *    but to reduce dependencies it is duplicated here
  */
-	private static Object getFieldValue(SObject sObj, String field) {
-		if (sObj == null || String.isBlank(field)) {
-			return null;
-		}
-		List<String> fieldSplit = field.split('\\.');
-		if (fieldSplit.size() > 1) {
-			Integer count = 0;
-			SObject parentRecord = sObj.getSObject(fieldSplit[count++]);
-			while (count < fieldSplit.size() - 1) {
-				parentRecord = parentRecord.getSObject(fieldSplit[count]);
-				count++;
-			}
-			// ensure the relationship is not null
-			if (parentRecord != null && String.isNotBlank(fieldSplit[count])) {
-				return parentRecord.get(fieldSplit[count]);
-			}
-			return null;
-		}
-		return sObj.get(field);
-	}
+  private static Object getFieldValue(SObject sObj, String field) {
+    if (sObj == null || String.isBlank(field)) {
+      return null;
+    }
+    List<String> fieldSplit = field.split('\\.');
+    if (fieldSplit.size() > 1) {
+      Integer count = 0;
+      SObject parentRecord = sObj.getSObject(fieldSplit[count++]);
+      while (count < fieldSplit.size() - 1) {
+        parentRecord = parentRecord.getSObject(fieldSplit[count]);
+        count++;
+      }
+      // ensure the relationship is not null
+      if (parentRecord != null && String.isNotBlank(fieldSplit[count])) {
+        return parentRecord.get(fieldSplit[count]);
+      }
+      return null;
+    }
+    return sObj.get(field);
+  }
 
 }
