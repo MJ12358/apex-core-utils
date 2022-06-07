@@ -96,9 +96,13 @@ public class ListUtilTest {
 
 	@TestSetup
 	static void testSetup() {
-		Account acc = new Account();
-		acc.Name = 'Test0';
-		insert acc;
+    List<Account> accounts = new List<Account>();
+    for (Integer i = 0; i < count; i++) {
+      Account acc = new Account();
+      acc.Name = 'Test0';
+      accounts.add(acc);
+    }
+    insert accounts;
 	}
 
 	@IsTest

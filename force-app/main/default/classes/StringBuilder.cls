@@ -65,12 +65,12 @@ public virtual class StringBuilder {
 
 	//* Append
 
-	public virtual StringBuilder append(String value) {
+	public virtual StringBuilder add(String value) {
 		this.buffer.add(value);
 		return this;
 	}
 	
-	public virtual StringBuilder append(List<String> values) {
+	public virtual StringBuilder add(List<String> values) {
 		this.buffer.addAll(values);
 		return this;
 	}

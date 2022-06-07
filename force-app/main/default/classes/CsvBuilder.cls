@@ -25,7 +25,7 @@
  *  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
 
-public class CsvBuilder {
+public inherited sharing class CsvBuilder {
 
 	public static final String WINDOWS_LINE_ENDING = '\r\n';
 	public static final String UNIX_LINE_ENDING = '\n';
@@ -70,7 +70,10 @@ public class CsvBuilder {
 				if (row == null) {
 					row = new RowBuilder();
 				}
-				row.append(value?.escapeCsv());
+        value = value?.escapeCsv()
+          .replaceAll('\r\n', ' ')
+          .replaceAll('\n', ' ');
+				row.append(value);
 				rows[rowIterator] = row;
 			}
 		}

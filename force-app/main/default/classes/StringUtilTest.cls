@@ -2,15 +2,20 @@
 public class StringUtilTest {
 
 	@IsTest
-	static void testGetName() {
+	static void testGetFirstName() {
 		System.assertEquals('Test', StringUtil.getFirstName('Test'));
 		System.assertEquals('Test', StringUtil.getFirstName('Test User'));
 		System.assertEquals('Test', StringUtil.getFirstName('Test User Jr.'));
-		System.assertEquals('Test', StringUtil.getLastName('Test'));
+    System.assertEquals(null, StringUtil.getFirstName(null));
+	}
+
+  @IsTest
+  static void testGetLastName() {
+    System.assertEquals('Test', StringUtil.getLastName('Test'));
 		System.assertEquals('User', StringUtil.getLastName('Test User'));
 		System.assertEquals('User Jr.', StringUtil.getLastName('Test User Jr.'));
 		System.assertEquals(null, StringUtil.getLastName(null));
-	}
+  }
 
 	@IsTest
 	static void testFormatPhoneNumber() {
@@ -27,11 +32,10 @@ public class StringUtilTest {
 	}
 
 	@IsTest
-	static void testIndefiniteArticle() {
-		System.assertEquals('a', StringUtil.indefiniteArticle('Contact'));
-		System.assertEquals('a', StringUtil.indefiniteArticle('Jobs__c'));
-		System.assertEquals('an', StringUtil.indefiniteArticle('Account'));
-		System.assertEquals('an', StringUtil.indefiniteArticle('Opportunity'));
+	static void testGetIndefiniteArticle() {
+		System.assertEquals('a', StringUtil.getIndefiniteArticle('Contact'));
+		System.assertEquals('an', StringUtil.getIndefiniteArticle('Account'));
+		System.assertEquals('an', StringUtil.getIndefiniteArticle('Opportunity'));
 	}
 
 	@IsTest
@@ -47,7 +51,7 @@ public class StringUtilTest {
 		};
 		String json = System.JSON.serialize(res);
 		String result = StringUtil.mogrifyJSON(json, replacements);
-		// for some reason this does not pass
+		// TODO: check if this is correct
 		// System.assertEquals(System.JSON.serializePretty(expectedOutput), StringUtil.mogrifyJSON(json, replacements));
 		// System.assertEquals('{ "case_x" : "testCase" }', StringUtil.mogrifyJSON(json, replacements));
 	}

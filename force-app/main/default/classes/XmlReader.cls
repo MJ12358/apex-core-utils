@@ -25,6 +25,9 @@
  *  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
 
+// TODO: need more input on this
+  // as i dont normally work with xml
+
 public class XmlReader {
 
 	public System.XmlStreamReader reader;
@@ -47,7 +50,8 @@ public class XmlReader {
 
 	public XmlReader getAttribute(String element, String attribute) {
 		while (this.reader.hasNext()) {
-			if (this.reader.getEventType() == System.XmlTag.START_ELEMENT && this.reader.getLocalName().equalsIgnoreCase(element)) {
+			if (this.reader.getEventType() == System.XmlTag.START_ELEMENT 
+          && this.reader.getLocalName().equalsIgnoreCase(element)) {
 				this.result = this.reader.getAttributeValue(xmlns, attribute);
 				break;
 			}
@@ -58,7 +62,8 @@ public class XmlReader {
 
 	public XmlReader getElement(String element) {
 		while (this.reader.hasNext()) {
-			if (this.reader.getEventType() == System.XmlTag.START_ELEMENT && this.reader.getLocalName().equalsIgnoreCase(element)) {
+			if (this.reader.getEventType() == System.XmlTag.START_ELEMENT 
+          && this.reader.getLocalName().equalsIgnoreCase(element)) {
 				while (this.reader.hasNext()) {
 					this.reader.next();
 					if (this.reader.getEventType() == System.XmlTag.CHARACTERS) {

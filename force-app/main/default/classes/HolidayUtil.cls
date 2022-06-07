@@ -30,7 +30,7 @@
  * 	https://salesforce.stackexchange.com/questions/158547/recurring-holidays-exclude-holidays-between-two-dates
  */
 
-public class HolidayUtil {
+public inherited sharing class HolidayUtil {
 
 	public static List<Holiday> holidays {
 		get {

@@ -2,13 +2,13 @@
 public class NumberUtilTest {
 
 	@IsTest
-	static void testGenerateGuid() {
-		System.assert(String.isNotBlank(NumberUtil.generateGuid()));
+	static void testGetGuid() {
+		System.assert(String.isNotBlank(NumberUtil.getGuid()));
 	}
 
 	@IsTest
-	static void testGenerateRandomNumber() {
-		System.assertNotEquals(null, NumberUtil.generateRandomNumber(32));
+	static void testGetRandomNumber() {
+		System.assertNotEquals(null, NumberUtil.getRandomNumber(32));
 	}
 
 	@IsTest

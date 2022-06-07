@@ -25,8 +25,13 @@
  *  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
 
-public class BooleanUtil {
+public inherited sharing class BooleanUtil {
 
+/**
+ * 	Negates the incoming boolean
+ * 	@param Boolean
+ *	@return Boolean
+ */
 	public static Boolean negate(Boolean value) {
 		if (value == null) {
 			return false;
@@ -34,13 +39,44 @@ public class BooleanUtil {
 		return !value;
 	}
 
-	public static Boolean toBoolean(Integer value) {
-		if (value != null && value == 1) {
-			return true;
-		}
-		return false;
+/**
+ * 	Converts an object to a boolean
+ * 	@param Object
+ * 	@return Boolean
+ */
+  public static Boolean toBoolean(Object value) {
+		if (value == null) {
+      return false;
+    }
+
+    if (value instanceof Integer || value instanceof Decimal || value instanceof Double) {
+      Integer i = Integer.valueOf(value);
+      if (i == 1) {
+        return true;
+      }
+      return false;
+    }
+
+    if (value instanceof String) {
+      String s = String.valueOf(value);
+      switch on s.toUpperCase() {
+        when 'TRUE', 'YES', 'Y' {
+          return true;
+        }
+        when else {
+          return false;
+        }
+      }
+    }
+
+    return false;
 	}
 
+/**
+ * 	Converts a boolean to a string
+ * 	@param Boolean
+ * 	@return String either 'TRUE' or 'FALSE'
+ */
 	public static String toString(Boolean value) {
 		if (value != null && value) {
 			return 'TRUE';
@@ -48,6 +84,11 @@ public class BooleanUtil {
 		return 'FALSE';
 	}
 
+/**
+ *	Converts a boolean to a string
+ *	@param Boolean
+ *	@return String either 'YES' or 'NO'
+ */
 	public static String toYesNo(Boolean value) {
 		if (value != null && value) {
 			return 'YES';
@@ -55,24 +96,16 @@ public class BooleanUtil {
 		return 'NO';
 	}
 
+/**
+ *	Converts a boolean to a string
+ *	@param Boolean
+ *	@return String either 'Y' or 'N'
+ */
 	public static String toYN(Boolean value) {
 		if (value != null && value) {
 			return 'Y';
 		}
 		return 'N';
-	}
-
-	public static Boolean xor(List<Boolean> items) {
-		if (items == null || items.isEmpty()) {
-			return false;
-		}
-		Boolean firstItem = items[0];
-		for (Boolean item : items) {
-			if (item != firstItem) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 }

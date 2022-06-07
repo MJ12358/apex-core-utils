@@ -11,8 +11,15 @@ public class BooleanUtilTest {
 	@IsTest
 	static void testToBoolean() {
 		System.assertEquals(true, BooleanUtil.toBoolean(1));
+    System.assertEquals(true, BooleanUtil.toBoolean(1.123));
 		System.assertEquals(false, BooleanUtil.toBoolean(0));
+    System.assertEquals(false, BooleanUtil.toBoolean(0.123));
 		System.assertEquals(false, BooleanUtil.toBoolean(null));
+    System.assertEquals(true, BooleanUtil.toBoolean('true'));
+    System.assertEquals(true, BooleanUtil.toBoolean('yes'));
+    System.assertEquals(true, BooleanUtil.toBoolean('y'));
+    System.assertEquals(false, BooleanUtil.toBoolean('test'));
+    System.assertEquals(false, BooleanUtil.toBoolean(new List<String>()));
 	}
 
 	@IsTest
@@ -30,12 +37,6 @@ public class BooleanUtilTest {
 		System.assertEquals('TRUE', BooleanUtil.toString(true));
 		System.assertEquals('FALSE', BooleanUtil.toString(false));
 		System.assertEquals('FALSE', BooleanUtil.toString(null));
-	}
-
-	@IsTest
-	static void testXor() {
-		List<Boolean> bList = new List<Boolean>{ true, false, true, false };
-		System.assert(false, BooleanUtil.xor(bList));
 	}
 
 }

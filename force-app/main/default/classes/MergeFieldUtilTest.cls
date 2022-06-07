@@ -1,15 +1,26 @@
 @IsTest
 public class MergeFieldUtilTest {
 
-	private static String template = 'Hi {!Name}, Welcome to Salesforce! Best, {!CreatedBy.Name} {!$User.Name}';
-	private static String expectedOutput = 'Hi Test Company, Welcome to Salesforce! Best, Test User Test User';
+	private static String template = 
+    'Hi {!Name}, Welcome to Salesforce! Best, {!CreatedBy.Name} {!$User.Name}';
+	private static String expectedOutput = 
+    'Hi Test Company, Welcome to Salesforce! Best, Test User Test User';
 
 	@TestSetup
 	static void testSetup() {
 		User usr = new User();
 		usr.FirstName = 'Test';
 		usr.LastName = 'User';
+    usr.Alias = 'merge';
+    usr.Email = 'mergefield@mergfield.com';
+    usr.EmailEncodingKey = 'UTF-8';
+    usr.LanguageLocaleKey = 'en_US';
+    usr.LocaleSidKey = 'en_US';
+    usr.TimeZoneSidKey = 'GMT';
+    usr.ProfileId = System.UserInfo.getProfileId();
+    usr.Username = usr.Email;
 		insert usr;
+
 		// run as this user so we can control the created by name
 		System.runAs(usr) {
 			Account acc = new Account();

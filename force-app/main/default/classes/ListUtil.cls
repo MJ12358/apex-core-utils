@@ -30,7 +30,7 @@
  * 		same data type that was passed in to be returned
  */
 
-public class ListUtil {
+public inherited sharing class ListUtil {
 
 /**
  *	Chunk an array by the given split size

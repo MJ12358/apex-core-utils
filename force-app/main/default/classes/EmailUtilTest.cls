@@ -1,23 +1,26 @@
 @IsTest
 public class EmailUtilTest {
 
+  private static String subject = 'Testing';
+  private static String message = 'This is a test';
+  private static String toAddress = 'test@test.com';
+
+  @IsTest
+  static void testSend() {
+    Test.startTest();
+    EmailUtil.send(subject, message, toAddress);
+    Test.stopTest();
+  }
+
 	@IsTest
 	static void testDebug() {
-		String message = 'This is only a test.';
 		Test.startTest();
-		try {
-			EmailException e = new EmailException();
-			e.setMessage('Test error message');
-			throw e;
-		} catch (Exception e) {
-			EmailUtil.sendDebug(message);
-		}
+		EmailUtil.sendDebug(message);
 		Test.stopTest();
 	}
 
 	@IsTest
 	static void testInfo() {
-		String message = 'This is only a test.';
 		Test.startTest();
 		EmailUtil.sendInfo(message);
 		Test.stopTest();

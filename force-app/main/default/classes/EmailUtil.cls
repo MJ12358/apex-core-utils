@@ -25,37 +25,48 @@
  *  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
 
-public class EmailUtil {
+public inherited sharing class EmailUtil {
 
-	public static List<String> getApexNotification() {
-		List<String> emailAddresses = new List<String>();
-		Set<Id> userIds = new Set<Id>();
-		for (ApexEmailNotification aen : [SELECT Email, UserId FROM ApexEmailNotification]) {
-			if (aen.Email == null && aen.UserId != null) {
-				userIds.add(aen.UserId);
-			} else if (aen.Email != null) {
-				emailAddresses.add(aen.Email);
-			}
-		}
-		if (!userIds.isEmpty()) {
-			for (User u : [SELECT Email FROM User WHERE Id IN :userIds]) {
-				if (u.Email != null) {
-					emailAddresses.add(u.Email);
-				}
-			}
-		}
-		return emailAddresses;
-	}
+/**
+ *  Simply send an email
+ *  @param String subject
+ *  @param String message
+ *  @param List<String> toAddresses
+ */
+  public static void send(String subject, String message, List<String> toAddresses) {
+    Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+		mail.setToAddresses(toAddresses);
+		mail.setSubject(subject);
+		mail.setPlainTextBody(message);
+		mail.setSaveAsActivity(false);
+		Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
+  }
+
+/**
+ *  Simply send an email
+ *  @param String subject
+ *  @param String message
+ *  @param String toAddress
+ */
+  public static void send(String subject, String message, String toAddress) {
+    List<String> toAddresses = new List<String>{ toAddress };
+    send(subject, message, toAddresses);
+  }
 
 	//* Send debug
 
 /**
  *	Send a debug message
- *	@param String Subject
+ *    to all who subscribe to apex notifications
+ *	@param String subject
  *	@param String message
  *	@param Exception
  */
 	public static void sendDebug(String subject, String message, Exception e) {
+    List<String> toAddresses = getApexNotification();
+    if (toAddresses.isEmpty()) {
+      return; // TODO: what to do in this case
+    }
 		String errorMessage = String.format('Cause :: {0}\nType :: {1}\nLine Number :: {2}\nMessage :: {3}\nStackTrace :: {4}',
 			new List<Object>{
 				e.getCause(),
@@ -66,7 +77,6 @@ public class EmailUtil {
 			}
 		);
 		Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-		List<String> toAddresses = getApexNotification();
 		mail.setToAddresses(toAddresses);
 		mail.setSubject(subject);
 		mail.setPlainTextBody(errorMessage + '\n' + message);
@@ -86,12 +96,16 @@ public class EmailUtil {
 
 /**
  *	Send an informational message
+ *    to all who subscribe to apex notifications
  *	@param String subject
  *	@param String message
  */
 	public static void sendInfo(String subject, String message) {
+    List<String> toAddresses = getApexNotification();
+    if (toAddresses.isEmpty()) {
+      return; // TODO: what to do in this case
+    }
 		Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-		List<String> toAddresses = getApexNotification();
 		mail.setToAddresses(toAddresses);
 		mail.setSubject(subject);
 		mail.setPlainTextBody(message);
@@ -99,8 +113,37 @@ public class EmailUtil {
 		Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ mail });
 	}
 
+/**
+ *  Send an informational message
+ *    to all who subscribe to apex notifications
+ *  @param String message
+ */
 	public static void sendInfo(String message) {
 		sendInfo('Apex informational statement', message);
+	}
+
+/**
+ *  Get email addresses of users subscribed to apex notifications
+ *  @return List<String>
+ */
+	public static List<String> getApexNotification() {
+		List<String> emailAddresses = new List<String>();
+		Set<Id> userIds = new Set<Id>();
+		for (ApexEmailNotification aen : [SELECT Email, UserId FROM ApexEmailNotification]) {
+			if (aen.Email == null && aen.UserId != null) {
+				userIds.add(aen.UserId);
+			} else if (aen.Email != null) {
+				emailAddresses.add(aen.Email);
+			}
+		}
+		if (!userIds.isEmpty()) {
+			for (User u : [SELECT Email FROM User WHERE Id IN :userIds]) {
+				if (u.Email != null) {
+					emailAddresses.add(u.Email);
+				}
+			}
+		}
+		return emailAddresses;
 	}
 
 /**

@@ -25,7 +25,7 @@
  *  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
 
-public class DateUtil {
+public inherited sharing class DateUtil {
 
 	public static final Map<String, Integer> dayByName = new Map<String, Integer>{
 		'Sunday' => 0,

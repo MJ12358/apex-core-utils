@@ -27,17 +27,22 @@
 
 public class UserUtil {
 
+/**
+ *  Get a users portal account Id
+ *  @param Id
+ *  @return Id
+ */
 	public static Id getPortalAccountId(Id userId) {
 		User result = [
-			SELECT Id, ContactId, Contact.AccountId, UserRole.Name 
+			SELECT Id, Contact.AccountId 
 			FROM User 
-			WHERE Id = :userId 
+			WHERE Id = :userId
 		];
 		return result.Contact?.AccountId;
 	}
 
 /**
- *	Is the user an administrator
+ *	Check if the user is an administrator
  *	@param Id
  *	@return Boolean
  */
@@ -56,13 +61,17 @@ public class UserUtil {
 		return result != null;
 	}
 
+/**
+ *  Check if the user is an administrator
+ *  @return Boolean
+ */
 	@AuraEnabled
 	public static Boolean isAdmin() {
 		return isAdmin(System.UserInfo.getUserId());
 	}
 
 /**
- *	Is the user a guest user
+ *	Check if the user is a guest
  *	@param Id
  *	@return Boolean
  */
@@ -81,13 +90,17 @@ public class UserUtil {
 		return result != null;
 	}
 
+/**
+ *  Check if the user is a guest
+ *  @return Boolean
+ */
 	@AuraEnabled
 	public static Boolean isGuest() {
 		return isGuest(System.UserInfo.getUserId());
 	}
 
 /**
- *	Is the user a portal user
+ *	Check if the user is a portal user
  *	@param Id
  *	@return Boolean
  */
@@ -95,6 +108,10 @@ public class UserUtil {
 		return getPortalAccountId(userId) != null;
 	}
 
+/**
+ *  Check if the user is portal user
+ *  @return Boolean
+ */
 	@AuraEnabled
 	public static Boolean isPortalUser() {
 		return isPortalUser(System.UserInfo.getUserId());

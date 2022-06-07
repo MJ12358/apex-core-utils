@@ -25,7 +25,7 @@
  *  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
 
-public class IntegerIterator implements Iterator<Integer>, Iterable<Integer> {
+public inherited sharing class IntegerIterator implements Iterator<Integer>, Iterable<Integer> {
 
 	private Integer current;
 	private Integer min;

@@ -25,31 +25,32 @@
  *  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
 
-public class FileUtil {
+public inherited sharing class FileUtil {
 
-	public static String getExtension(String fileName) {
-		if (String.isBlank(fileName)) {
-			return fileName;
+	public static String getExtension(String filename) {
+		if (String.isBlank(filename)) {
+			return filename;
 		}
-		List<String> s = fileName.split('\\.');
+		List<String> s = filename.split('\\.');
 		if (s.size() > 0) {
 			return s[s.size() - 1];
 		}
-		return fileName;
+		return filename;
 	}
 
-	public static String getName(String fileName) {
-		if (String.isBlank(fileName)) {
-			return fileName;
+	public static String getName(String filename) {
+		if (String.isBlank(filename)) {
+			return filename;
 		}
-		return fileName.substringBeforeLast('.');
+		return filename.substringBeforeLast('.');
 	}
 
-	public static String getIcon(String fileName) {
-		if (String.isBlank(fileName)) {
-			return fileName;
+	public static String getIcon(String filename) {
+    String unknown = 'doctype:unknown';
+		if (String.isBlank(filename)) {
+			return unknown;
 		}
-		String extension = getExtension(fileName).toLowerCase();
+		String extension = getExtension(filename).toLowerCase();
 		switch on extension {
 			when 'aac', 'aiff', 'oga', 'ogg', 'f4a', 'f4b', 'mp3', 'wav', 'weba', 'wma' {
 				return 'doctype:audio';
@@ -63,7 +64,7 @@ public class FileUtil {
 			when 'exe' {
 				return 'doctype:exe';
 			}
-			when 'bmp', 'jpg', 'jpeg', 'jpe', 'png', 'gif', 'tif', 'tiff', 'webp' {
+			when 'bmp', 'jpg', 'jpeg', 'jpe', 'png', 'gif', 'pmg', 'ppm', 'tif', 'tiff', 'webp' {
 				return 'doctype:image';
 			}
 			when 'html', 'xhtml' {
@@ -84,7 +85,7 @@ public class FileUtil {
 			when 'crtext', 'css', 'text', 'txt' {
 				return 'doctype:txt';
 			}
-			when 'avi', 'mpeg', 'mpe', 'mov', 'ogv', 'qt', 'ts', 'webm' {
+			when 'avi', 'mpeg', 'mpe', 'mov', 'ogv', 'qt', 'ts', 'webm', 'wmv' {
 				return 'doctype:video';
 			}
 			when 'vsd', 'vsdx' {
@@ -100,19 +101,23 @@ public class FileUtil {
 				return 'doctype:zip';
 			}
 			when else {
-				return 'doctype:unknown';
+				return unknown;
 			}
 		}
 	}
 
-	public static String getMimeType(String fileName) {
-		if (String.isBlank(fileName)) {
-			return fileName;
+	public static String getMimeType(String filename) {
+    String octetStream = 'application/octet-stream';
+		if (String.isBlank(filename)) {
+			return octetStream;
 		}
-		String extension = getExtension(fileName).toLowerCase();
+		String extension = getExtension(filename).toLowerCase();
 		switch on extension {
 			when 'aac' {
 				return 'audio/aac';
+			}
+			when 'aiff' {
+				return 'audio/aiff';
 			}
 			when 'avi' {
 				return 'video/x-msvideo';
@@ -168,6 +173,9 @@ public class FileUtil {
 			when 'oga' {
 				return 'audio/ogg';
 			}
+			when 'ogg' {
+				return 'application/ogg';
+			}
 			when 'ogv' {
 				return 'video/ogg';
 			}
@@ -210,6 +218,15 @@ public class FileUtil {
 			when 'webm' {
 				return 'video/webm';
 			}
+			when 'webp' {
+				return 'image/webp';
+			}
+			when 'wma' {
+				return 'audio/x-ms-wma';
+			}
+			when 'wmv' {
+				return 'audio/x-ms-wmv';
+			}
 			when 'xls' {
 				return 'application/vnd.ms-excel';
 			}
@@ -220,7 +237,7 @@ public class FileUtil {
 				return 'text/xml';
 			}
 			when else {
-				return 'application/octet-stream';
+				return octetStream;
 			}
 		}
 	}
@@ -248,49 +265,37 @@ public class FileUtil {
 		return String.valueOf(gb) + ' GB';
 	}
 
-	public static Boolean isImage(String value) {
-		if (String.isBlank(value)) {
+	public static Boolean isImage(String filename) {
+		if (String.isBlank(filename)) {
 			return false;
 		}
-		String extension = getExtension(value).toLowerCase();
-		switch on extension {
-			when 'bmp', 'jpg', 'jpeg', 'jpe', 'pgm', 'png', 'ppm', 'gif', 'tif', 'tiff', 'webp' {
-				return true;
-			}
-			when else {
-				return false;
-			}
+		String mimeType = getMimeType(filename);
+		if (mimeType.split('/')[0] == 'image') {
+			return true;
 		}
+		return false;
 	}
 
-	public static Boolean isAudio(String value) {
-		if (String.isBLank(value)) {
+	public static Boolean isAudio(String filename) {
+		if (String.isBLank(filename)) {
 			return false;
 		}
-		String extension = getExtension(value).toLowerCase();
-		switch on extension {
-			when 'aac', 'aiff', 'oga', 'ogg', 'f4a', 'f4b', 'mp3', 'wav', 'weba', 'wma' {
-				return true;
-			}
-			when else {
-				return false;
-			}
+		String mimeType = getMimeType(filename);
+		if (mimeType.split('/')[0] == 'audio') {
+			return true;
 		}
+		return false;
 	}
 
-	public static Boolean isVideo(String value) {
-		if (String.isBLank(value)) {
+	public static Boolean isVideo(String filename) {
+		if (String.isBLank(filename)) {
 			return false;
 		}
-		String extension = getExtension(value).toLowerCase();
-		switch on extension {
-			when 'avi', 'f4v', 'f4p', 'm4v', 'mp4', 'mpeg', 'mpe', 'mov', 'ogv', 'qt', 'ts', 'webm' {
-				return true;
-			}
-			when else {
-				return false;
-			}
+		String mimeType = getMimeType(filename);
+		if (mimeType.split('/')[0] == 'video') {
+			return true;
 		}
+		return false;
 	}
 
 }

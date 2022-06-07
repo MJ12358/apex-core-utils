@@ -68,10 +68,20 @@ public class StringUtil {
 		'a', 'e', 'i', 'o', 'u'
 	};
 
+/**
+ *  Get digits from a string
+ *  @param String
+ *  @return String
+ */
 	public static String getDigits(String str) {
 		return String.isNotBlank(str) ? str.replaceAll('\\D', '') : str;
 	}
 
+/**
+ *  Get first name from a string
+ *  @param String
+ *  @return String
+ */
 	public static String getFirstName(String name) {
 		if (String.isBlank(name)) {
 			return name;
@@ -79,6 +89,11 @@ public class StringUtil {
 		return name.split(' ')[0];
 	}
 
+/**
+ *  Get last name from a string
+ *  @param String
+ *  @return String
+ */
 	public static String getLastName(String name) {
 		if (String.isBlank(name)) {
 			return name;
@@ -90,6 +105,12 @@ public class StringUtil {
 		return name;
 	}
 
+/**
+ *  Format a phone number
+ *  @param String
+ *  @return String
+ */
+  @AuraEnabled
 	public static String formatPhoneNumber(String value) {
 		if (String.isBlank(value)) {
 			return value;
@@ -125,13 +146,25 @@ public class StringUtil {
 		return value;
 	}
 
-	public static String indefiniteArticle(String word) {
+/**
+ *  Get indefinite article from a string
+ *  @param String
+ *  @return String
+ */
+  @AuraEnabled
+	public static String getIndefiniteArticle(String word) {
 		if (String.isBlank(word)) {
 			return word;
 		}
 		return VOWELS.contains(word.split('')[0].toLowerCase()) ? 'an' : 'a';
 	}
 
+/**
+ *  Mogrify JSON
+ *  @param String json
+ *  @param Map<String,String> replacements
+ *  @return String
+ */
 	public static String mogrifyJSON(String json, Map<String, String> replacements) {
 		String regexFormat = '(?m)^\\s*"{0}"\\s*:';
 		String replacementFormat = '"{0}" :';
@@ -148,6 +181,11 @@ public class StringUtil {
 		return formattedJSON;
 	}
 
+/**
+ *  Title case a string
+ *  @param String
+ *  @return String
+ */
 	public static String toTitleCase(String s) {
 		if (String.isBlank(s)) {
 			return s;
@@ -166,6 +204,13 @@ public class StringUtil {
 		return result;
 	}
 
+/**
+ *  Normalize keys of json (respecting reserved words)
+ *    this is usually used when keys from an api
+ *    are among the reserved words in Apex
+ *  @param String
+ *  @return String
+ */
 	public static String normalizeKeys(String json) {
 		for (String s : RESERVED_WORDS) {
 			String replacee = '"' + s + '":';
@@ -175,6 +220,12 @@ public class StringUtil {
 		return json;
 	}
 
+/**
+ *  Reverse the normailzation of keys
+ *    this is used to reverse the normaization used above
+ *  @param String
+ *  @return String
+ */
 	public static String normalizeKeysReverse(String json) {
 		for (String s : RESERVED_WORDS) {
 			String replacee = '"' + s + 'x":';
@@ -184,20 +235,25 @@ public class StringUtil {
 		return json;
 	}
 
-	public static List<String> safeSplit(String inStr, String delim) {
+/**
+ *  Safe split a string
+ *  @param String input
+ *  @param String delimiter
+ */
+	public static List<String> safeSplit(String input, String delim) {
 		Integer regexFindLimit = 100;
 		Integer regexFindCount = 0;
 		List<String> output = new List<String>();
-		Matcher m = Pattern.compile(delim).matcher(inStr);
+		Matcher m = Pattern.compile(delim).matcher(input);
 		Integer lastEnd = 0;
 		while (!m.hitEnd()) {
 			while (regexFindCount < regexFindLimit && !m.hitEnd()) {
 				if (m.find()) {
-					output.add(inStr.substring(lastEnd, m.start())); 
+					output.add(input.substring(lastEnd, m.start())); 
 					lastEnd = m.end();
 				} else {
-					output.add(inStr.substring(lastEnd));
-					lastEnd = inStr.length();
+					output.add(input.substring(lastEnd));
+					lastEnd = input.length();
 				}
 				regexFindCount++;
 			}
@@ -205,13 +261,18 @@ public class StringUtil {
 			// drastically on heap size. Nonetheless, we still must reset the
 			// (unmodified) input sequence to avoid a 'Regex too complicated'
 			// error.
-			m.reset(inStr);       
+			m.reset(input);       
 			m.region(lastEnd, m.regionEnd());
 			regexFindCount = 0;
 		}
 		return output;
 	}
 
+/**
+ *  Check if a string is an IP address
+ *  @param String
+ *  @return Boolean
+ */
 	public static Boolean isIpAddress(String value) {
 		if (String.isBlank(value)) {
 			return false;
@@ -245,6 +306,11 @@ public class StringUtil {
 		return false;
 	}
 
+/**
+ *  Check if a string is an email address
+ *  @param String
+ *  @return Boolean
+ */
 	public static Boolean isEmailAddress(String value) {
 		if (String.isNotBlank(value)) {
 			List<String> split = value.split('@');

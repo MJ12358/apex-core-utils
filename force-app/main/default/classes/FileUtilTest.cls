@@ -1,44 +1,61 @@
 @IsTest
 public class FileUtilTest {
 
+  private static Map<String, String> iconMap = new Map<String, String>{
+    'test.mp3' => 'doctype:audio',
+    'test.csv' => 'doctype:csv',
+    'test.xlsx' => 'doctype:excel',
+    'test.exe' => 'doctype:exe',
+    'test.html' => 'doctype:html',
+    'test.jpeg' => 'doctype:image',
+    'jpeg' => 'doctype:image',
+    'test.mp4' => 'doctype:mp4',
+    'test.pdf' => 'doctype:pdf',
+    'test.PPSX' => 'doctype:ppt',
+    'test.rtf' => 'doctype:rtf',
+    'TEST.text' => 'doctype:txt',
+    'test.mov' => 'doctype:video',
+    'test.vsd' => 'doctype:visio',
+    'test.docx' => 'doctype:word',
+    'test.xml' => 'doctype:xml',
+    'test.zip' => 'doctype:zip',
+    'unknown' => 'doctype:unknown',
+    'test.test.unknown' => 'doctype:unknown'
+  };
+
+  private static Map<String, String> mimeTypeMap = new Map<String, String>{
+    'unknown' => 'application/octet-stream',
+    'test.test.unknown' => 'application/octet-stream',
+    'doc' => 'application/msword',
+    'TEST.pdf' => 'application/pdf',
+    'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'test.xls' => 'application/vnd.ms-excel',
+    'test.aiff' => 'audio/aiff',
+    'test.m4a' => 'audio/mp4',
+    'test.bmp' => 'image/bmp',
+    'JPEG' => 'image/jpeg',
+    'test.PNG' => 'image/png',
+    'test.css' => 'text/css',
+    'test.csv' => 'text/csv',
+    'test.txt' => 'text/plain',
+    'XML' => 'text/xml',
+    'test.flv' => 'video/x-flv',
+    'test.mpe' => 'video/mpeg'
+  };
+
 	@IsTest
-	static void testgetIcon() {
-		System.assertEquals('doctype:audio', FileUtil.getIcon('test.mp3'));
-		System.assertEquals('doctype:csv', FileUtil.getIcon('test.csv'));
-		System.assertEquals('doctype:excel', FileUtil.getIcon('test.xlsx'));
-		System.assertEquals('doctype:exe', FileUtil.getIcon('executable.exe'));
-		System.assertEquals('doctype:html', FileUtil.getIcon('web.html'));
-		System.assertEquals('doctype:image', FileUtil.getIcon('jpeg'));
-		System.assertEquals('doctype:mp4', FileUtil.getIcon('test.mp4'));
-		System.assertEquals('doctype:pdf', FileUtil.getIcon('PDF'));
-		System.assertEquals('doctype:ppt', FileUtil.getIcon('test.PPSX'));
-		System.assertEquals('doctype:rtf', FileUtil.getIcon('test.rtf'));
-		System.assertEquals('doctype:txt', FileUtil.getIcon('TEST.text'));
-		System.assertEquals('doctype:video', FileUtil.getIcon('somefile.mov'));
-		System.assertEquals('doctype:word', FileUtil.getIcon('test.docx'));
-		System.assertEquals('doctype:xml', FileUtil.getIcon('text.xml'));
-		System.assertEquals('doctype:zip', FileUtil.getIcon('zip'));
-		System.assertEquals('doctype:unknown', FileUtil.getIcon('test.test.unknown'));
-		System.assertEquals('', FileUtil.getIcon(''));
-		System.assertEquals(null, FileUtil.getIcon(null));
+	static void testGetIcon() {
+		for (String key : iconMap.keySet()) {
+      System.assertEquals(iconMap.get(key), FileUtil.getIcon(key));
+    }
 	}
 
 	@IsTest
 	static void testGetMimeType() {
-		System.assertEquals('image/bmp', FileUtil.getMimeType('test.bmp'));
-		System.assertEquals('text/csv', FileUtil.getMimeType('test.csv'));
-		System.assertEquals('application/msword', FileUtil.getMimeType('doc'));
-		System.assertEquals('application/vnd.openxmlformats-officedocument.wordprocessingml.document', FileUtil.getMimeType('test.docx'));
-		System.assertEquals('image/jpeg', FileUtil.getMimeType('JPEG'));
-		System.assertEquals('image/png', FileUtil.getMimeType('test.PNG'));
-		System.assertEquals('application/pdf', FileUtil.getMimeType('TEST.pdf'));
-		System.assertEquals('text/plain', FileUtil.getMimeType('test.txt'));
-		System.assertEquals('application/vnd.ms-excel', FileUtil.getMimeType('xls'));
-		System.assertEquals('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', FileUtil.getMimeType('test.xlsx'));
-		System.assertEquals('text/xml', FileUtil.getMimeType('XML'));
-		System.assertEquals('application/octet-stream', FileUtil.getMimeType('test.test.unknown'));
-		System.assertEquals('', FileUtil.getMimeType(''));
-		System.assertEquals(null, FileUtil.getMimeType(null));
+    for (String key : mimeTypeMap.keySet()) {
+      System.assertEquals(mimeTypeMap.get(key), FileUtil.getMimeType(key));
+    }
 	}
 
 	@IsTest

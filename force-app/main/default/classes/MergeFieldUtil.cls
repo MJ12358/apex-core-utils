@@ -25,7 +25,7 @@
  *  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
 
-public class MergeFieldUtil {
+public inherited sharing class MergeFieldUtil {
 
 /**
  *	Resolve the incoming template

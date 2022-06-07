@@ -29,7 +29,7 @@
 //	just to allow for greater flexibility
 //	 eg. passed a long or string data type
 
-public class CronBuilder {
+public inherited sharing class CronBuilder {
 
 	//* {Seconds} {Minutes} {Hours} {Day_of_month} {Month} {Day_of_week} {Optional_year}
 
