@@ -110,7 +110,6 @@ public inherited sharing class StringUtil {
  *  @param String
  *  @return String
  */
-  @AuraEnabled
   public static String formatPhoneNumber(String value) {
     if (String.isBlank(value)) {
       return value;
@@ -151,7 +150,6 @@ public inherited sharing class StringUtil {
  *  @param String
  *  @return String
  */
-  @AuraEnabled
   public static String getIndefiniteArticle(String word) {
     if (String.isBlank(word)) {
       return word;
