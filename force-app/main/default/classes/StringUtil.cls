@@ -25,7 +25,7 @@
  *  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
 
-public class StringUtil {
+public inherited sharing class StringUtil {
 
   public static final String EMPTY = '';
   public static final String SPACE = ' ';

@@ -25,7 +25,7 @@
  *  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
 
-public class StringIterator implements Iterator<String>, Iterable<String> {
+public inherited sharing class StringIterator implements Iterator<String>, Iterable<String> {
 
   private String delimiter;
   private String text;
