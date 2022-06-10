@@ -56,8 +56,8 @@ Core utilites for [Apex](https://developer.salesforce.com/docs/atlas.en-us.apexc
 - ### TypeUtil
   Get the type of an object.
 
--	### UserUtil
-	Utilities to work with users.
+-	### UrlUtil
+	Utilities to work with urls.
 
 -	### XmlReader
 	Reads xml streams.
@@ -265,7 +265,7 @@ System.assertEquals('Integer', s);
 
 # Tests
 
-Current test results are as follows:
+Current test results:
 
 | Class | Percent | Lines |
 | ----- | ------- | ----- |
@@ -284,5 +284,5 @@ Current test results are as follows:
 | StringIterator | 100% | 18/18 |
 | StringUtil | 94% | 143/151 |
 | TypeUtil | 93% | 44/47 |
-| UserUtil | 96% | 25/26 |
+| UrlUtil | 63% | 41/65 |
 | XmlReader | 100% | 31/31 |
