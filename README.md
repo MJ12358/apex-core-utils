@@ -1,4 +1,5 @@
 # apex-core-utils
+
 Core utilites for [Apex](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_dev_guide.htm).
 
 <a href="https://githubsfdeploy.herokuapp.com/app/githubdeploy/MJ12358/apex-core-utils?ref=main">
@@ -6,63 +7,79 @@ Core utilites for [Apex](https://developer.salesforce.com/docs/atlas.en-us.apexc
        src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
 </a>
 
-# Highlights
+## Highlights
 
--	### BooleanUtil
-	Utility to convert a boolean to a string and vice versa.
+- ### BooleanUtil
+
+  Utility to convert a boolean to a string and vice versa.
 
 - ### CronBuilder
-	Used to build cron strings easily via a fluent api.
 
--	###	CsvBuilder
-	Allows easy creation of csv strings.
+  Used to build cron strings easily via a fluent api.
 
--	###	DateUtil
-	Utilities to convert dates to strings and vice versa, check business hours and check holidays.
+- ### CsvBuilder
+  
+  Allows easy creation of csv strings.
 
--	### EmailUtil
-	Utility to easily send emails.
+- ### DateUtil
 
--	### FileUtil
-	Utilities to get file icons, sizes, extensions and mimetypes.
+  Utilities to convert dates to strings and vice versa, check business hours and check holidays.
 
--	###	HolidayUtil
-    [Inspired by this awesome code](https://salesforce.stackexchange.com/questions/158547/recurring-holidays-exclude-holidays-between-two-dates)
+- ### EmailUtil
 
-	  Used to determine if a date is a holiday.
+  Utility to easily send emails.
 
--	### IntegerIterator
-    [Inspired by this post](https://salesforce.stackexchange.com/questions/116785/how-to-create-thousands-of-records-using-batch-apex)
+- ### FileUtil
 
-	  Generic iterator used with integers.
+  Utilities to get file icons, sizes, extensions and mimetypes.
 
--	### ListUtil
-	Used to convert to and from lists of all types.
+- ### HolidayUtil
 
--	### MergeFieldUtil
-	Allows conversion of merge fields within a string (similar to VisualForce).
+  [Inspired by this awesome code](https://salesforce.stackexchange.com/questions/158547/recurring-holidays-exclude-holidays-between-two-dates)
 
--	### NumberUtil
-	Utilities to work with numbers.
+  Used to determine if a date is a holiday.
 
--	### StringBuilder
-	  [Inspired by this amazing code](https://github.com/financialforcedev/df12-apex-enterprise-patterns/blob/master/df12/src/classes/StringBuilder.cls)
+- ### IntegerIterator
 
-    A string builder similar to Java's.
+  [Inspired by this post](https://salesforce.stackexchange.com/questions/116785/how-to-create-thousands-of-records-using-batch-apex)
 
--	### StringInterator
-	Generic iterator used with strings.
+  Generic iterator used with integers.
+
+- ### ListUtil
+
+  Used to convert to and from lists of all types.
+
+- ### MergeFieldUtil
+
+  Allows conversion of merge fields within a string (similar to VisualForce).
+
+- ### NumberUtil
+
+  Utilities to work with numbers.
+
+- ### StringBuilder
+
+  [Inspired by this amazing code](https://github.com/financialforcedev/df12-apex-enterprise-patterns/blob/master/df12/src/classes/StringBuilder.cls)
+
+  A string builder similar to Java's.
+
+- ### StringInterator
+
+  Generic iterator used with strings.
 
 - ### TypeUtil
+
   Get the type of an object.
 
--	### UrlUtil
-	Utilities to work with urls.
+- ### UrlUtil
 
--	### XmlReader
-	Reads xml streams.
+  Utilities to work with urls.
 
-# Usage
+- ### XmlReader
+
+  Reads xml streams.
+
+## Usage
 
 `BooleanUtil`
 
@@ -90,14 +107,15 @@ System.assertEquals(true, result);
 CronBuilder builder = new CronBuilder();
 
 builder
-	.second(45)
-	.minute(47)
-	.hour(6)
-	.month(1);
+ .second(45)
+ .minute(47)
+ .hour(6)
+ .month(1);
 
 String result = builder.build();
 System.assertEquals('45 47 6 ? 1 ?', result);
 ```
+
 Or pass it a date or datetime.
 
 ```apex
@@ -263,7 +281,7 @@ String s = TypeUtil.getAsString(256);
 System.assertEquals('Integer', s);
 ```
 
-# Tests
+## Tests
 
 Current test results:
 
